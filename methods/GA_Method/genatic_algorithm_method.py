@@ -247,6 +247,7 @@ def trianguler_genetic_algorithm(sequence, generations=5000, pop_size=500):
 
 
 # Visualization of the Fold
+
 def visualize_fold(sequence, coords, min_energy):
     if not coords or len(coords) != len(sequence):
         print("Cannot visualize: invalid folding")
@@ -272,54 +273,56 @@ def visualize_fold(sequence, coords, min_energy):
     plt.show()
 
 # Run Simulation
-while True:
-    sequence_type = input("Input Type:\n1. Fasta Sequence (amino acids)\n2. HP sequence\nEnter your choice: ").strip()
-    if sequence_type == '1':
-        try:
-           fasta_sequence = "".join(input("Enter the fasta sequence: ").upper().split())
-           sequence = fasta_to_hp(fasta_sequence)
-           print(f"Converted HP Sequence: {sequence}")
-        except ValueError as e:
-            print("Error", e)
+if __name__ == "__main__":
+    while True:
+        sequence_type = input("Input Type:\n1. Fasta Sequence (amino acids)\n2. HP sequence\nEnter your choice: ").strip()
+        if sequence_type == '1':
+            try:
+               fasta_sequence = "".join(input("Enter the fasta sequence: ").upper().split())
+               sequence = fasta_to_hp(fasta_sequence)
+               print(f"Converted HP Sequence: {sequence}")
+            except ValueError as e:
+                print("Error", e)
+                continue
+        elif sequence_type == '2':
+            sequence = "".join(input("Enter the sequence (only H and P): ").upper().split())
+            if not sequence or any(c not in "HP" for c in sequence):
+                print("Invalid sequence. Please enter a string containing only 'H' and 'P'.")
+                continue
+        else:
+            print("Invalid choice. Please enter 1 or 2.")
             continue
-    elif sequence_type == '2':
-        sequence = "".join(input("Enter the sequence (only H and P): ").upper().split())
-        if not sequence or any(c not in "HP" for c in sequence):
-            print("Invalid sequence. Please enter a string containing only 'H' and 'P'.")
-            continue
-    else:
-        print("Invalid choice. Please enter 1 or 2.")
-        continue
+        
+        length = len(sequence)
+        print("Sequence Length: ", length)
+        lattice_type = input("Choose from menu: \n1. Square 2D Lattice \n2. Tranguler 2D Lattice \n3. Exit the program \nEnter your choice: ").strip().lower()
+        if lattice_type == '1':
+            print("Square 2D Lattice: Loading...\n")
+            min_energy, best_coords = square_genetic_algorithm(sequence, generations=5000, pop_size=200)
+        elif lattice_type == '2':
+            print("Trianguler 2D Lattice: Loading...\n")
+            min_energy, best_coords = trianguler_genetic_algorithm(sequence, generations=5000, pop_size=200)
+        else:
+            print("Thank you. Goodbye!")
+            sys.exit()
     
-    length = len(sequence)
-    print("Sequence Length: ", length)
-    lattice_type = input("Choose from menu: \n1. Square 2D Lattice \n2. Tranguler 2D Lattice \n3. Exit the program \nEnter your choice: ").strip().lower()
-    if lattice_type == '1':
-        print("Square 2D Lattice: Loading...")
-        min_energy, best_coords = square_genetic_algorithm(sequence, generations=5000, pop_size=200)
-    elif lattice_type == '2':
-        print("Trianguler 2D Lattice: Loading...")
-        min_energy, best_coords = trianguler_genetic_algorithm(sequence, generations=5000, pop_size=200)
-    else:
-        print("Thank you. Goodbye!")
-        sys.exit()
-
-    # Final Output
-    print("Minimum HP Energy:", min_energy)
-    if length in optimal_2d:
-        optimal = optimal_2d[length]
-        deviation = min_energy - optimal
-        print("Ideal Optimal Energy:", optimal)
-        print("Deviation from Optimal:", deviation)
-    else:
-        print("No known optimal energy for sequence length:", length)
+        # Final Output
+        print("Minimum HP Energy:", min_energy)
+        if length in optimal_2d:
+            optimal = optimal_2d[length]
+            deviation = min_energy - optimal
+            print("Ideal Optimal Energy:", optimal)
+            print("Deviation from Optimal:", deviation)
+        else:
+            optimal_2d = min_energy
+            print("optimal energy for the sequence: ", optimal_2d)
+        
+        # Visualization
+        visualize_fold(sequence, best_coords, min_energy)
     
-    # Visualization
-    visualize_fold(sequence, best_coords, min_energy)
-    
-    again = input("\nDo you want to run another sequence again? (yes/no): ").lower()
-    if again != 'yes':
-        print("Exiting Program. Goodbye!")
-        sys.exit()
+        again = input("\nDo you want to run another sequence again? (yes/no): ").lower()
+        if again != 'yes':
+            print("Exiting Program. Goodbye!")
+            sys.exit()
     
     
