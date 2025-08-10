@@ -6,12 +6,12 @@ Created on Tue Aug  5 15:08:17 2025
 """
 
 import random
-import heapq
+i
+from mpl_toolkitsmport heapq
 import matplotlib.pyplot as plt
 import math
 import sys
-import time
-from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
+import time.mplot3d import Axes3D  # for 3D plotting
 
 
 # Directions for 2D lattice: Up, Right, Down, Left
