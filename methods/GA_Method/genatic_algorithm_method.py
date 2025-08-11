@@ -6,13 +6,14 @@ Created on Tue Aug  5 15:08:17 2025
 """
 
 import random
-i
-from mpl_toolkitsmport heapq
+import heapq
 import matplotlib.pyplot as plt
 import math
+import streamlit as st
+import re
 import sys
-import time.mplot3d import Axes3D  # for 3D plotting
-
+from mpl_toolkits.mplot3d import Axes3D  # for 3D plotting
+import time
 
 # Directions for 2D lattice: Up, Right, Down, Left
 square_directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
