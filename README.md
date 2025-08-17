@@ -60,6 +60,8 @@ Protein_Folding_Model/
 
 ## 📌 Usage
 
+Option 1 – Run Locally
+
 1. Clone the repository:
 
 ```bash
@@ -90,6 +92,12 @@ The app will:
   - Compare with optimal (if available)
   - Plot the folding structure
   - Runtime statistics
+
+Option 2 – Run on the Cloud
+
+[**Launch Streamlit App**](https://proteinfoldingmodel.streamlit.app/)
+
+(No setup required — just paste your HP sequence or upload a FASTA file to get folding results.)
 
 ---
 
