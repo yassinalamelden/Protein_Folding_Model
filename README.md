@@ -15,6 +15,7 @@ Developed as part of my research internship at **Manipal University, Mahe, India
   - Simulated Annealing (SA) with temperature-based acceptance
   - Particle Swarm Optimization (PSO) with 
 - New Additions:
+
 ✅ FASTA-to-HP sequence conversion \
 ✅ Benchmark comparison with optimal 2D energies \
 ✅ Streamlit-based interactive interface for folding visualization and metrics \
