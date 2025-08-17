@@ -102,10 +102,11 @@ For Genatic Algoritm (GA):
 streamlit run streamlit_app/genatic_algorithm_method_streamlit.py
 ```
 
-input
+Input
 - Sequence: HPHPPHHPHPPHPHHPPHPH (length = 20)
 - Lattice: 2D Square
 - Method: Genetic Algorithm (GA)
+
 Output
 
 ✅ Minimum Energy Found: -8 \
