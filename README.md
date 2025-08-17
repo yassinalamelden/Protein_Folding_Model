@@ -6,25 +6,30 @@ Developed as part of my research internship at **Manipal University, Mahe**.
 
 ## 🚀 Features
 
-- ✅ Folding simulation on:
-  - 2D **Square** lattice
-  - 2D **Triangular** lattice
-  - (Planned) 3D Square lattice
-- ✅ HP energy evaluation
-- ✅ GA with selection, crossover, mutation, and elitism
-- ✅ Visualization of folded protein using Streamlit
-- ✅ Optimal energy comparison for known sequences
-- 🧪 Simulated Annealing integration
+- Lattice Models:
+  - 2D Square lattice
+  - 2D Triangular lattice
+  - 3D Cubic lattice (Genetic Algorithm, experimental)
+- Optimization Methods:
+  - Genetic Algorithm (GA) with selection, crossover, mutation, elitism
+  - Simulated Annealing (SA) with temperature-based acceptance
+  - Particle Swarm Optimization (PSO) with 
+- New Additions:
+✅ FASTA-to-HP sequence conversion
+✅ Benchmark comparison with optimal 2D energies
+✅ Streamlit-based interactive interface for folding visualization and metrics
+✅ Sequence energy & runtime logging
+✅ Support for benchmark sequences dataset
 
 ---
 
 ## 🧱 Lattice Structures
 
-| Lattice       | Description |
-|---------------|-------------|
-| Square (2D)   | Basic 4-directional model |
+| Lattice         | Description |
+|-----------------|-------------|
+| Square (2D)     | Basic 4-directional model |
 | Triangular (2D) | 6-directional with 60° turns |
-| Square (3D)   | Future enhancement using 3D GA methods |
+| Cubic (3D)     | Future enhancement using 3D GA methods |
 
 ---
 
@@ -40,43 +45,88 @@ Developed as part of my research internship at **Manipal University, Mahe**.
 ## 📂 Project Structure
 
 ```bash
-.
-├── GA.py               # Main Streamlit app with GA logic
-├── utils/              # (planned) Utility functions
-├── results/            # Output visualizations or logs
-├── sequences/          # Sample protein sequences
-└── README.md
+Protein_Folding_Model/
+│── methods/                # Implementation of GA, SA, PSO (in progress)
+│── benchmarks/             # Reference sequences & optimal energies
+│── utils/                  # Helper functions (FASTA parser, visualization, etc.)
+│── streamlit_app/          # Streamlit-based interactive UI
+│── results/                # Output energies, runtimes, visualizations
+│── requirements.txt        # Python dependencies
+│── README.md               # Project documentation
 ```
 
 ---
 
-## 📌 Sample Use (Streamlit Interface)
+## 📌 Usage
 
-1. Run the app:
+1. Clone the repository:
 
 ```bash
-streamlit run GA.py
+git clone https://github.com/yassinalamelden/Protein_Folding_Model.git
+cd Protein_Folding_Model
 ```
 
-2. Input your HP sequence (e.g., HPHPPHHPHPPHPHHPPHPH)
-3. Select lattice type: Square or Triangular
-4. Click "Run Simulation"
+2. Install dependencies
 
+```bash
+pip install -r requirements.txt
+```
+
+3.Run Streamlit interface
+
+```bash
+streamlit run streamlit_app/genatic_algorithm_method_streamlit.py
+```
+
+4.Select your options
+- Input HP sequence or upload FASTA file
+- Choose lattice type (2D square, 2D triangular, or 3D cubic)
+- Select optimization method (GA or SA)
+- Run simulation and view:
 The app will:
-
-- Run the GA folding algorithm
-- Show minimum energy
-- Compare with optimal (if available)
-- Plot the folding structure
+  - Run the GA folding algorithm
+  - Show minimum energy
+  - Compare with optimal (if available)
+  - Plot the folding structure
+  - Runtime statistics
 
 ---
 
 ## 📉 Example Output
 
+For Genatic Algoritm (GA):
+
 ```bash
-Minimum HP Energy: -9
-Ideal Optimal Energy: -9
-Deviation from Optimal: 0
+# Run the Streamlit app
+streamlit run streamlit_app/genatic_algorithm_method_streamlit.py
+```
+
+input
+- Sequence: HPHPPHHPHPPHPHHPPHPH (length = 20)
+- Lattice: 2D Square
+- Method: Genetic Algorithm (GA)
+Output
+✅ Minimum Energy Found: -8
+📊 Known Optimal Energy: -9
+⏱ Runtime: ~2.4 seconds
+🖼 Visualization: Fold plotted on 2D lattice with hydrophobic (H) and polar (P) residues
+
+For Simulated Annealing (SA):
+
+```bash
+# Run SA implementation
+python methods/SA_Method/simulated_annealing_method.py
+```
+
+Output Example:
+
+```bash
+Sequence length: 24
+Lattice: 2D Triangular
+Minimum Energy Found: -9
+Known Optimal Energy: -9
+Deviation: 0
+Runtime: 3.1s
 ```
 
 ---
@@ -115,8 +165,9 @@ This Project is an open source and available under the MIT License.
 
 ---
 
-## 🙋‍♂️ Author
-Yassin Mahmoud \
+## 📬 Contact
+Author: Yassin Mahmoud \
 Intern at Manipal University, Mahe \
+[Gmail](yassin.alamelden@gmail.com) \
 [LinkedIn](https://www.linkedin.com/in/yassin-mahmoud-6130b5228)
 
