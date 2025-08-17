@@ -20,7 +20,7 @@ Developed as part of my research internship at **Manipal University, Mahe, India
 ✅ Benchmark comparison with optimal 2D energies \
 ✅ Streamlit-based interactive interface for folding visualization and metrics \
 ✅ Sequence energy & runtime logging \
-✅ Support for benchmark sequences dataset \
+✅ Support for benchmark sequences dataset
 
 ---
 
@@ -107,6 +107,7 @@ input
 - Lattice: 2D Square
 - Method: Genetic Algorithm (GA)
 Output
+
 ✅ Minimum Energy Found: -8 \
 📊 Known Optimal Energy: -9 \
 ⏱ Runtime: ~2.4 seconds \
