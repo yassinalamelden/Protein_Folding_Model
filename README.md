@@ -1,6 +1,6 @@
 # 🧬 Protein Folding using Genetic Algorithm & Simulated Annealing (HP Model)
 This project explores protein folding using the **Hydrophobic-Polar (HP) model** on both **2D and 3D lattice structures**, with optimization via **Genetic Algorithm (GA)** and **Simulated Annealing (SA)**.  
-Developed as part of my research internship at **Manipal University, Mahe**.
+Developed as part of my research internship at **Manipal University, Mahe, India**.
 
 ---
 
@@ -15,11 +15,11 @@ Developed as part of my research internship at **Manipal University, Mahe**.
   - Simulated Annealing (SA) with temperature-based acceptance
   - Particle Swarm Optimization (PSO) with 
 - New Additions:
-✅ FASTA-to-HP sequence conversion
-✅ Benchmark comparison with optimal 2D energies
-✅ Streamlit-based interactive interface for folding visualization and metrics
-✅ Sequence energy & runtime logging
-✅ Support for benchmark sequences dataset
+✅ FASTA-to-HP sequence conversion \
+✅ Benchmark comparison with optimal 2D energies \
+✅ Streamlit-based interactive interface for folding visualization and metrics \
+✅ Sequence energy & runtime logging \
+✅ Support for benchmark sequences dataset \
 
 ---
 
@@ -29,7 +29,7 @@ Developed as part of my research internship at **Manipal University, Mahe**.
 |-----------------|-------------|
 | Square (2D)     | Basic 4-directional model |
 | Triangular (2D) | 6-directional with 60° turns |
-| Cubic (3D)     | Future enhancement using 3D GA methods |
+| Cubic (3D)      | Future enhancement using 3D GA methods |
 
 ---
 
@@ -106,10 +106,10 @@ input
 - Lattice: 2D Square
 - Method: Genetic Algorithm (GA)
 Output
-✅ Minimum Energy Found: -8
-📊 Known Optimal Energy: -9
-⏱ Runtime: ~2.4 seconds
-🖼 Visualization: Fold plotted on 2D lattice with hydrophobic (H) and polar (P) residues
+✅ Minimum Energy Found: -8 \
+📊 Known Optimal Energy: -9 \
+⏱ Runtime: ~2.4 seconds \
+🖼 Visualization: Fold plotted on 2D lattice with hydrophobic (H) and polar (P) residues \
 
 For Simulated Annealing (SA):
 
@@ -167,7 +167,7 @@ This Project is an open source and available under the MIT License.
 
 ## 📬 Contact
 Author: Yassin Mahmoud \
-Intern at Manipal University, Mahe \
+Intern at Manipal University, Mahe, India \
 [Gmail](yassin.alamelden@gmail.com) \
 [LinkedIn](https://www.linkedin.com/in/yassin-mahmoud-6130b5228)
 
