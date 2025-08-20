@@ -1,4 +1,4 @@
-# 🧬 Protein Folding using Genetic Algorithm & Simulated Annealing (HP Model)
+# 🧬 Protein Folding using Genetic Algorithm, Simulated Annealing & Particle Swarm Optimization (HP Model)
 This project explores protein folding using the **Hydrophobic-Polar (HP) model** on both **2D and 3D lattice structures**, with optimization via **Genetic Algorithm (GA)**, **Simulated Annealing (SA)** and **Particle Swarm Optimization**.  
 Developed as part of my research internship at **Manipal University, Mahe, India**.
 
