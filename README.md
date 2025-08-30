@@ -146,20 +146,31 @@ Runtime: 3.1s
 
 ---
 
-## 📊 Optimization Techniques
-✅ Genetic Algorithm
+## 🔎 Optimization Techniques
 
-- Random population initialization
-- Tournament selection
-- Multi-point crossover
-- Mutation with decaying rate
-- Compactness penalty to favor compact folds
+We have implemented and compared **three metaheuristic algorithms** for protein folding on the HP model:
 
-🔄 Simulated Annealing
+- 🧬 **Genetic Algorithm (GA)**  
+  - Population-based search with crossover, mutation, elitism  
+  - Strong scalability for both 2D and 3D lattices  
+  - Consistently achieves near-optimal energies  
 
-- Random fold mutation
-- Temperature-controlled probabilistic acceptance
-- Iterative convergence to energy minimum
+- 🔥 **Simulated Annealing (SA)**  
+  - Single-solution probabilistic search with temperature-based acceptance  
+  - Useful for escaping local minima  
+  - Performance depends heavily on cooling schedule  
+
+- 🐦 **Particle Swarm Optimization (PSO)**  
+  - Swarm-based search guided by personal best (`pBest`) and global best (`gBest`)  
+  - Encodes folding as particle positions/velocities in lattice space  
+  - Achieves stable folds but slower convergence than GA on longer sequences  
+
+---
+
+### ✅ Summary
+- **GA**: Best trade-off between runtime, accuracy, and scalability  
+- **SA**: Flexible, avoids local minima but sensitive to parameters  
+- **PSO**: Effective but slower on discrete HP lattice compared to GA  
 
 ---
 
@@ -184,7 +195,7 @@ Authors: Yassin M. Alam Elden, Omar M. Hegab, Mariam E. Elshamy
 
 ---
 
-## License
+## 📜 License
 This Project is an open source and available under the MIT License.
 
 ---
