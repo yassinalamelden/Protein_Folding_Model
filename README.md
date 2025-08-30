@@ -47,11 +47,15 @@ Developed as part of my research internship at **Manipal University, Mahe, India
 
 ```bash
 Protein_Folding_Model/
-│── methods/                # Implementation of GA, SA, PSO (in progress)
-│── benchmarks/             # Reference sequences & optimal energies
-│── utils/                  # Helper functions (FASTA parser, visualization, etc.)
-│── streamlit_app/          # Streamlit-based interactive UI
+│── methods/
+     └── GA_Method
+     └── SA_Method
+     └── PSO_Method          
+│── data/                   # Benchmark HP sequences & known optimal energies
+     └── utils/             # FASTA parser, visualization, helper functions
 │── results/                # Output energies, runtimes, visualizations
+│── docs/                   # Documentation
+│    └── research_paper.pdf # Research paper
 │── requirements.txt        # Python dependencies
 │── README.md               # Project documentation
 ```
@@ -171,7 +175,16 @@ Runtime: 3.1s
 
 ---
 
-## 📄 License
+## 📄 Research Paper
+This repository is supported by the following research work:
+
+Optimization-Based Prediction of Protein Structures in the 2D & 3D HP Model: \
+A Comparative Study of Metaheuristic Approaches \
+Authors: Yassin M. Alam Elden, Omar M. Hegab, Mariam E. Elshamy
+
+---
+
+## License
 This Project is an open source and available under the MIT License.
 
 ---
