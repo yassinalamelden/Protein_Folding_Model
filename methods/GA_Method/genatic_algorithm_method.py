@@ -8,6 +8,8 @@ Created on Tue Aug  5 15:08:17 2025
 import random
 import heapq
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from matplotlib.widgets import Slider, Button
 import math
 import re
 import sys
@@ -387,6 +389,7 @@ def genetic_algorithm_3d(sequence, generations=5000, pop_size=200):
 
 
 ### Visualization of the Fold (2D and 3D)
+'''
 def visualize_fold(sequence, coords, min_energy):
     if not coords or len(coords) != len(sequence):
         print("Cannot visualize: invalid folding")
@@ -427,6 +430,256 @@ def visualize_fold(sequence, coords, min_energy):
         ax.set_ylabel("Y", fontweight = 'bold')
         ax.set_zlabel("Z", fontweight = 'bold')
         plt.grid(True)
+        plt.show()
+'''
+
+def snap_to_square(x, y, step=0.5):
+    """Snap (x, y) to nearest grid with given step (default = 0.5)"""
+    return (round(x / step) * step, round(y / step) * step)
+
+
+def snap_to_triangle(x, y):
+    """Snap (x, y) to nearest triangular lattice point"""
+    dx = 0.5
+    dy = (3**0.5) / 2
+    grid_x = round(x / dx)
+    grid_y = round(y / dy)
+    snapped_x = grid_x * dx
+    snapped_y = grid_y * dy
+    return (snapped_x, snapped_y)
+
+
+def visualize_fold(sequence, coords, min_energy, step_init=0.5):
+    if not coords or len(coords) != len(sequence):
+        print("Cannot visualize: invalid folding")
+        return
+
+    dim = len(coords[0])
+    colors = ['red' if c == 'H' else 'blue' for c in sequence]
+    selected = {"idx": None, "dragging": False}
+    step = {"val": step_init}
+
+    # History stack for Undo
+    history = [coords.copy()]
+    # Annotation toggle
+    show_annotations = {"val": True}
+
+    if dim == 2:
+        lattice_type = "square"
+        for (x, y) in coords:
+            if abs(x * 2 - round(x * 2)) < 1e-6 and abs(y * (2 / math.sqrt(3)) - round(y * (2 / math.sqrt(3)))) < 1e-6:
+                lattice_type = "triangular"
+                break
+
+        fig, ax = plt.subplots(figsize=(8, 8))
+        plt.subplots_adjust(bottom=0.45)  # space for slider + buttons
+        xs, ys = zip(*coords)
+        scat = ax.scatter(xs, ys, c=colors, s=150, picker=10)
+        lines, = ax.plot(xs, ys, 'k-')
+        ax.axis("equal")
+        ax.grid(True)
+
+        # Slider
+        ax_step = plt.axes([0.2, 0.25, 0.6, 0.03])
+        slider = Slider(ax_step, "Snap step", 0.1, 1.0, valinit=step_init, valstep=0.05)
+
+        # Undo Button
+        ax_undo = plt.axes([0.25, 0.1, 0.15, 0.07])
+        button_undo = Button(ax_undo, "Undo")
+
+        # Toggle Labels Button
+        ax_toggle = plt.axes([0.55, 0.1, 0.2, 0.07])
+        button_toggle = Button(ax_toggle, "Toggle Labels")
+
+        def update_plot():
+            xs, ys = zip(*coords)
+            scat.set_offsets(coords)
+            lines.set_data(xs, ys)
+            energy = true_energy(sequence, coords)
+            ax.set_title(
+                f"Protein Fold Visualization (Red=H, Blue=P)\n"
+                f"{lattice_type.capitalize()} Lattice\n"
+                f"Minimum Energy = {energy}",
+                fontsize=14
+            )
+
+            # Remove old annotations
+            for ann in getattr(ax, "_annotations", []):
+                ann.remove()
+            ax._annotations = []
+
+            # Add new annotations if enabled
+            if show_annotations["val"]:
+                for i, ((x, y), c) in enumerate(zip(coords, sequence)):
+                    ann = ax.annotate(f"{i}:{c}", (x, y),
+                                      textcoords="offset points", xytext=(5, 5),
+                                      fontsize=8, color="black")
+                    ax._annotations.append(ann)
+
+            fig.canvas.draw_idle()
+
+        def on_pick(event):
+            if not event.ind: return
+            ind = int(event.ind[0])
+            selected["idx"] = ind
+            selected["dragging"] = True
+            sizes = [250 if i == ind else 150 for i in range(len(coords))]
+            scat.set_sizes(sizes)
+            update_plot()
+
+        def on_motion(event):
+            if selected["dragging"] and selected["idx"] is not None:
+                if event.inaxes != ax or event.xdata is None or event.ydata is None: return
+                idx = selected["idx"]
+                if lattice_type == "triangular":
+                    coords[idx] = snap_to_triangle(event.xdata, event.ydata)
+                else:
+                    coords[idx] = snap_to_square(event.xdata, event.ydata, step=step["val"])
+                update_plot()
+
+        def on_release(event):
+            if selected["dragging"]:
+                selected["dragging"] = False
+                selected["idx"] = None
+                scat.set_sizes([150 for _ in range(len(coords))])
+                history.append(coords.copy())  # save state
+                update_plot()
+
+        def on_slider_change(val):
+            step["val"] = slider.val
+            update_plot()
+
+        def on_undo(event):
+            if len(history) > 1:
+                history.pop()
+                prev = history[-1]
+                coords[:] = prev.copy()
+                update_plot()
+
+        def on_toggle(event):
+            show_annotations["val"] = not show_annotations["val"]
+            update_plot()
+
+        # Connect
+        fig.canvas.mpl_connect("pick_event", on_pick)
+        fig.canvas.mpl_connect("motion_notify_event", on_motion)
+        fig.canvas.mpl_connect("button_release_event", on_release)
+        slider.on_changed(on_slider_change)
+        button_undo.on_clicked(on_undo)
+        button_toggle.on_clicked(on_toggle)
+
+        update_plot()
+        plt.show()
+
+    elif dim == 3:
+        lattice_type = "cubic"
+        fig = plt.figure(figsize=(10, 8))
+        plt.subplots_adjust(bottom=0.45)
+        ax = fig.add_subplot(111, projection="3d")
+        xs, ys, zs = zip(*coords)
+        scat = ax.scatter(xs, ys, zs, c=colors, s=150, picker=10)
+        lines, = ax.plot(xs, ys, zs, 'k-')
+
+        ax.set_xlabel("X")
+        ax.set_ylabel("Y")
+        ax.set_zlabel("Z")
+
+        # Slider
+        ax_step = plt.axes([0.2, 0.25, 0.6, 0.03])
+        slider = Slider(ax_step, "Snap step", 0.1, 1.0, valinit=step_init, valstep=0.05)
+
+        # Undo Button
+        ax_undo = plt.axes([0.25, 0.1, 0.15, 0.07])
+        button_undo = Button(ax_undo, "Undo")
+
+        # Toggle Labels Button
+        ax_toggle = plt.axes([0.55, 0.1, 0.2, 0.07])
+        button_toggle = Button(ax_toggle, "Toggle Labels")
+
+        def update_plot():
+            xs, ys, zs = zip(*coords)
+            scat._offsets3d = (xs, ys, zs)
+            lines.set_data(xs, ys)
+            lines.set_3d_properties(zs)
+            energy = true_3d_energy(sequence, coords)
+            ax.set_title(
+                f"Protein Fold Visualization (Red=H, Blue=P)\n"
+                f"{lattice_type} Lattice\n"
+                f"Minimum Energy = {energy}",
+                fontsize=14
+            )
+
+            # Remove old annotations
+            for ann in getattr(ax, "_annotations", []):
+                ann.remove()
+            ax._annotations = []
+
+            # Add new annotations if enabled
+            if show_annotations["val"]:
+                for i, ((x, y, z), c) in enumerate(zip(coords, sequence)):
+                    ann = ax.text(x, y, z, f"{i}:{c}", fontsize=8, color="black")
+                    ax._annotations.append(ann)
+
+            fig.canvas.draw_idle()
+
+        def on_pick(event):
+            if not event.ind: return
+            ind = int(event.ind[0])
+            selected["idx"] = ind
+            selected["dragging"] = True
+            update_plot()
+
+        def on_motion(event):
+            if selected["dragging"] and selected["idx"] is not None:
+                if event.inaxes != ax or event.xdata is None or event.ydata is None: return
+                idx = selected["idx"]
+                x, y, z = coords[idx]
+                coords[idx] = (round(event.xdata / step["val"]) * step["val"],
+                               round(event.ydata / step["val"]) * step["val"], z)
+                update_plot()
+
+        def on_release(event):
+            if selected["dragging"]:
+                selected["dragging"] = False
+                selected["idx"] = None
+                history.append(coords.copy())
+                update_plot()
+
+        def on_key(event):
+            if selected["idx"] is None: return
+            idx = selected["idx"]
+            x, y, z = coords[idx]
+            if event.key == "z":
+                coords[idx] = (x, y, z + 1)
+            elif event.key == "x":
+                coords[idx] = (x, y, z - 1)
+            update_plot()
+
+        def on_slider_change(val):
+            step["val"] = slider.val
+            update_plot()
+
+        def on_undo(event):
+            if len(history) > 1:
+                history.pop()
+                prev = history[-1]
+                coords[:] = prev.copy()
+                update_plot()
+
+        def on_toggle(event):
+            show_annotations["val"] = not show_annotations["val"]
+            update_plot()
+
+        # Connect
+        fig.canvas.mpl_connect("pick_event", on_pick)
+        fig.canvas.mpl_connect("motion_notify_event", on_motion)
+        fig.canvas.mpl_connect("button_release_event", on_release)
+        fig.canvas.mpl_connect("key_press_event", on_key)
+        slider.on_changed(on_slider_change)
+        button_undo.on_clicked(on_undo)
+        button_toggle.on_clicked(on_toggle)
+
+        update_plot()
         plt.show()
 
 
