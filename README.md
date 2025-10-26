@@ -1,4 +1,6 @@
 # 🧬 Protein Folding using Genetic Algorithm, Simulated Annealing & Particle Swarm Optimization (HP Model)
+> **Next version (v1.1) in progress — implementing Grey Wolf Optimizer (GWO)**
+
 This project explores protein folding using the **Hydrophobic-Polar (HP) model** on both **2D and 3D lattice structures**, with optimization via **Genetic Algorithm (GA)**, **Simulated Annealing (SA)** and **Particle Swarm Optimization**.  
 Developed as part of my research internship at **Manipal University, Mahe, India**.
 
@@ -192,6 +194,18 @@ This repository is supported by the following research work:
 Optimization-Based Prediction of Protein Structures in the 2D & 3D HP Model: \
 A Comparative Study of Metaheuristic Approaches \
 Authors: Yassin M. Alam Elden, Omar M. Hegab, Mariam E. Elshamy
+
+---
+
+## 📅 New Upcoming Methods (Planned)
+
+- 🐺 Grey Wolf Optimizer (GWO) — next addition; leadership hierarchy (α, β, δ) guiding the search; adapted for discrete lattice moves.
+
+- 🦌 Ant Lion Optimizer (ALO) — probabilistic random walk with adaptive boundaries.
+
+- 🐢 Whale Optimization Algorithm (WOA) — encircling and spiral position updates for protein conformation search.
+
+These will be integrated under a unified experimental interface for fair benchmarking.
 
 ---
 
